@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Generation Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1>Lead Generation Tool</h1>
+      <p class="header-sub">Find businesses via Google Maps using Apify</p>
+    </header>
+
+    <div id="api-key-banner" class="banner banner--error hidden">
+      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+      <span>API key not configured. Add your key to <code>config.js</code>.</span>
+    </div>
+
+    <div id="error-banner" class="banner banner--error hidden">
+      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+      <span id="error-message"></span>
+    </div>
+
+    <div id="info-banner" class="banner banner--info hidden">
+      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 00-2 0v4a1 1 0 002 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+      <span id="info-message"></span>
+    </div>
+
+    <form id="lead-form" class="card form-card" novalidate>
+      <div class="form-group">
+        <label for="sector">Business Type</label>
+        <input
+          type="text"
+          id="sector"
+          name="sector"
+          placeholder="e.g. dental offices, law firms, coffee shops"
+          autocomplete="off"
+        >
+        <span class="field-error hidden" id="sector-error">Please enter a business type.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          placeholder="e.g. London, New York NY, Dubai"
+          autocomplete="off"
+        >
+        <span class="field-error hidden" id="location-error">Please enter a location.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="max-results">Max Results <span class="label-hint">(free tier: up to 200)</span></label>
+        <input
+          type="number"
+          id="max-results"
+          name="maxResults"
+          value="50"
+          min="1"
+          max="1000"
+        >
+      </div>
+
+      <button type="submit" id="submit-btn" class="btn btn--primary">
+        Generate Leads
+      </button>
+    </form>
+
+    <div id="status-bar" class="status-bar hidden">
+      <span class="spinner"></span>
+      <span id="status-message">Starting run...</span>
+    </div>
+
+    <section id="results-section" class="hidden">
+      <div class="results-header">
+        <span id="results-count" class="results-count"></span>
+        <div class="export-buttons">
+          <button class="btn btn--secondary" id="export-csv-btn">Export CSV</button>
+          <button class="btn btn--secondary" id="export-json-btn">Export JSON</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Website</th>
+              <th>Rating</th>
+              <th>Reviews</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
