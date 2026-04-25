@@ -4,6 +4,7 @@ const SEARCH_ACTOR_ID = 'apify~google-search-scraper';
 const POLL_INTERVAL_MS = 3000;
 const TERMINAL_STATUSES = ['SUCCEEDED', 'FAILED', 'ABORTED', 'TIMED-OUT'];
 const SOCIAL_HOSTS = ['facebook.com', 'instagram.com', 'tiktok.com'];
+const STORAGE_KEY = 'apify_api_key';
 
 const state = {
   runId: null,
@@ -25,7 +26,11 @@ const errorBanner = document.getElementById('error-banner');
 const errorMessage = document.getElementById('error-message');
 const infoBanner = document.getElementById('info-banner');
 const infoMessage = document.getElementById('info-message');
-const apiKeyBanner = document.getElementById('api-key-banner');
+const apiKeyCard = document.getElementById('api-key-card');
+const apiKeyInput = document.getElementById('api-key-input');
+const apiKeySaveBtn = document.getElementById('api-key-save');
+const apiKeyError = document.getElementById('api-key-error');
+const changeKeyBtn = document.getElementById('change-key-btn');
 const sectorInput = document.getElementById('sector');
 const locationInput = document.getElementById('location');
 const maxResultsInput = document.getElementById('max-results');
@@ -36,18 +41,79 @@ const exportJsonBtn = document.getElementById('export-json-btn');
 
 // --- Init ---
 function init() {
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    apiKeyBanner.classList.remove('hidden');
-    submitBtn.disabled = true;
+  // Precedence: config.js (window.APIFY_CONFIG) > localStorage > prompt user
+  if (!getApiKey()) {
+    const stored = loadStoredKey();
+    if (stored) setApiKey(stored);
   }
+
+  if (getApiKey()) {
+    showKeySavedState();
+  } else {
+    showKeyPrompt();
+  }
+
   form.addEventListener('submit', handleSubmit);
   exportCsvBtn.addEventListener('click', exportCSV);
   exportJsonBtn.addEventListener('click', exportJSON);
+  apiKeySaveBtn.addEventListener('click', handleSaveKey);
+  apiKeyInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); handleSaveKey(); }
+  });
+  changeKeyBtn.addEventListener('click', handleChangeKey);
 }
 
 function getApiKey() {
   return (window.APIFY_CONFIG && window.APIFY_CONFIG.apiKey) ? window.APIFY_CONFIG.apiKey.trim() : '';
+}
+
+function setApiKey(key) {
+  window.APIFY_CONFIG = { apiKey: key };
+}
+
+function loadStoredKey() {
+  try { return localStorage.getItem(STORAGE_KEY) || ''; } catch (_) { return ''; }
+}
+
+function persistKey(key) {
+  try { localStorage.setItem(STORAGE_KEY, key); } catch (_) {}
+}
+
+function clearStoredKey() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+}
+
+function showKeyPrompt() {
+  apiKeyCard.classList.remove('hidden');
+  changeKeyBtn.classList.add('hidden');
+  submitBtn.disabled = true;
+}
+
+function showKeySavedState() {
+  apiKeyCard.classList.add('hidden');
+  apiKeyError.classList.add('hidden');
+  changeKeyBtn.classList.remove('hidden');
+  submitBtn.disabled = false;
+}
+
+function handleSaveKey() {
+  const key = apiKeyInput.value.trim();
+  if (!key.startsWith('apify_api_') || key.length < 20) {
+    apiKeyError.classList.remove('hidden');
+    apiKeyInput.focus();
+    return;
+  }
+  setApiKey(key);
+  persistKey(key);
+  apiKeyInput.value = '';
+  showKeySavedState();
+}
+
+function handleChangeKey() {
+  clearStoredKey();
+  window.APIFY_CONFIG = {};
+  showKeyPrompt();
+  apiKeyInput.focus();
 }
 
 // --- Form handling ---

@@ -1,2 +1,4 @@
 .env
 config.js
+*.bak
+.playwright-mcp/

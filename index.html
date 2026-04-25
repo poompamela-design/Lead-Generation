@@ -3,84 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lead Generation Tool</title>
+  <title>Dossier № — Lead Reconnaissance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page">
-    <header class="header">
-      <h1>Lead Generation Tool</h1>
-      <p class="header-sub">Find businesses via Google Maps using Apify</p>
+  <div class="grain" aria-hidden="true"></div>
+
+  <span class="reg-mark reg-mark--tl" aria-hidden="true"></span>
+  <span class="reg-mark reg-mark--tr" aria-hidden="true"></span>
+  <span class="reg-mark reg-mark--bl" aria-hidden="true"></span>
+  <span class="reg-mark reg-mark--br" aria-hidden="true"></span>
+
+  <div class="masthead-bar">
+    <span class="masthead-bar-cell">
+      <span class="masthead-bar-key">Dossier №</span>
+      <span class="masthead-bar-val">FIELD-001 / R</span>
+    </span>
+    <span class="masthead-bar-cell masthead-bar-mid">Vol. I — Field Intelligence / Reconnaissance</span>
+    <span class="masthead-bar-cell masthead-bar-right">
+      <span class="masthead-bar-key">Filed</span>
+      <span class="masthead-bar-val" id="masthead-date">—</span>
+    </span>
+  </div>
+
+  <main class="page">
+    <header class="masthead">
+      <span class="masthead-eyebrow">A field instrument · Apify · Google Maps</span>
+      <h1 class="masthead-title">
+        <span class="masthead-title-line">Lead</span>
+        <span class="masthead-title-line"><em>Reconnaissance.</em></span>
+      </h1>
+      <p class="masthead-sub">A working tool for the cataloguing of local enterprise — primary intelligence by Google Maps, secondary recovery by public social channels when the trail goes cold.</p>
+      <div class="masthead-rule" aria-hidden="true">
+        <span class="masthead-rule-label">§ 01 &nbsp;·&nbsp; Subject Brief</span>
+      </div>
     </header>
 
-    <div id="api-key-banner" class="banner banner--error hidden">
-      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-      <span>API key not configured. Add your key to <code>config.js</code>.</span>
+    <div id="api-key-card" class="card api-key-card hidden">
+      <span class="api-key-stamp" aria-hidden="true">Auth · Req</span>
+      <h2 class="api-key-title">Authorisation Required.</h2>
+      <p class="api-key-desc">Procure a token from <a href="https://console.apify.com/account/integrations" target="_blank" rel="noopener">apify.com</a>. It is held only within this browser and dispatched only to <code>api.apify.com</code>.</p>
+      <div class="api-key-form">
+        <input
+          type="password"
+          id="api-key-input"
+          placeholder="apify_api_..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button type="button" id="api-key-save" class="btn btn--save">Authorise</button>
+      </div>
+      <span class="field-error hidden" id="api-key-error">Token must begin with <code>apify_api_</code>.</span>
     </div>
 
-    <div id="error-banner" class="banner banner--error hidden">
-      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+    <div id="error-banner" class="banner banner--error hidden" role="alert">
+      <span class="banner-tag" aria-hidden="true">Err</span>
       <span id="error-message"></span>
+      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
     </div>
 
-    <div id="info-banner" class="banner banner--info hidden">
-      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 00-2 0v4a1 1 0 002 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+    <div id="info-banner" class="banner banner--info hidden" role="status">
+      <span class="banner-tag" aria-hidden="true">Nte</span>
       <span id="info-message"></span>
+      <svg class="banner-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 00-2 0v4a1 1 0 002 0V6zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
     </div>
 
-    <form id="lead-form" class="card form-card" novalidate>
+    <form id="lead-form" class="form-card" novalidate>
       <div class="form-group">
-        <label for="sector">Business Type</label>
-        <input
-          type="text"
-          id="sector"
-          name="sector"
-          placeholder="e.g. dental offices, law firms, coffee shops"
-          autocomplete="off"
-        >
-        <span class="field-error hidden" id="sector-error">Please enter a business type.</span>
+        <label for="sector">Subject / Sector</label>
+        <div class="form-field">
+          <input
+            type="text"
+            id="sector"
+            name="sector"
+            placeholder="dental offices · law firms · coffee shops"
+            autocomplete="off"
+          >
+          <span class="field-error hidden" id="sector-error">Specify a business type.</span>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="location">Location</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          placeholder="e.g. London, New York NY, Dubai"
-          autocomplete="off"
-        >
-        <span class="field-error hidden" id="location-error">Please enter a location.</span>
+        <label for="location">Territory / Location</label>
+        <div class="form-field">
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="London · New York NY · Dubai"
+            autocomplete="off"
+          >
+          <span class="field-error hidden" id="location-error">Specify a location.</span>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="max-results">Max Results <span class="label-hint">(free tier: up to 200)</span></label>
-        <input
-          type="number"
-          id="max-results"
-          name="maxResults"
-          value="50"
-          min="1"
-          max="1000"
-        >
+        <label for="max-results">
+          Result Threshold
+          <span class="label-hint">free tier ≤ 200</span>
+        </label>
+        <div class="form-field">
+          <input
+            type="number"
+            id="max-results"
+            name="maxResults"
+            value="50"
+            min="1"
+            max="1000"
+          >
+        </div>
       </div>
 
       <button type="submit" id="submit-btn" class="btn btn--primary">
-        Generate Leads
+        <span class="btn-label">File Field Query</span>
+        <span class="btn-arrow" aria-hidden="true">→</span>
       </button>
+
+      <button type="button" id="change-key-btn" class="link-btn hidden">Revoke / Change Token</button>
     </form>
 
     <div id="status-bar" class="status-bar hidden">
-      <span class="spinner"></span>
-      <span id="status-message">Starting run...</span>
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="status-prefix" aria-hidden="true">Transmission ▸</span>
+      <span id="status-message">Initialising…</span>
+      <span class="status-cursor" aria-hidden="true"></span>
     </div>
 
-    <section id="results-section" class="hidden">
+    <section id="results-section" class="results-section hidden">
+      <div class="section-mark" aria-hidden="true">§ 02 &nbsp;·&nbsp; Field Log</div>
       <div class="results-header">
         <span id="results-count" class="results-count"></span>
         <div class="export-buttons">
-          <button class="btn btn--secondary" id="export-csv-btn">Export CSV</button>
-          <button class="btn btn--secondary" id="export-json-btn">Export JSON</button>
+          <button class="btn btn--secondary" id="export-csv-btn">Export · CSV</button>
+          <button class="btn btn--secondary" id="export-json-btn">Export · JSON</button>
         </div>
       </div>
       <div class="table-wrapper">
@@ -91,7 +149,7 @@
               <th>Category</th>
               <th>Address</th>
               <th>Phone</th>
-              <th>Website</th>
+              <th>Web</th>
               <th>Rating</th>
               <th>Reviews</th>
             </tr>
@@ -100,8 +158,25 @@
         </table>
       </div>
     </section>
-  </div>
+  </main>
 
+  <footer class="colophon">
+    <span class="colophon-edge">— Field Issued —</span>
+    <span class="colophon-stamp" aria-hidden="true">Confidential</span>
+    <span class="colophon-edge">For internal distribution only</span>
+  </footer>
+
+  <script>
+    (function () {
+      var d = new Date();
+      var m = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      var el = document.getElementById('masthead-date');
+      if (el) {
+        el.textContent =
+          String(d.getDate()).padStart(2, '0') + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
+      }
+    })();
+  </script>
   <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
