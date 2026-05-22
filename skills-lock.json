@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "poster-design-generation": {
+      "source": "eachlabs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/poster-design-generation/SKILL.md",
+      "computedHash": "e2adfaeee3d700c6899a6c1c100e6c2de3d765f0f8845ac5a7a40a74c7294202"
+    }
+  }
+}
